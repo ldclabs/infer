@@ -15,31 +15,37 @@ enum DocType {
 }
 
 /// Returns whether a buffer is Microsoft Word Document (DOC) data.
+#[must_use]
 pub fn is_doc(buf: &[u8]) -> bool {
     ole2(buf) == Some(DocType::DOC)
 }
 
 /// Returns whether a buffer is Microsoft Word Open XML Format Document (DOCX) data.
+#[must_use]
 pub fn is_docx(buf: &[u8]) -> bool {
     msooxml(buf) == Some(DocType::DOCX)
 }
 
 /// Returns whether a buffer is Microsoft Excel 97-2003 Worksheet (XLS) data.
+#[must_use]
 pub fn is_xls(buf: &[u8]) -> bool {
     ole2(buf) == Some(DocType::XLS)
 }
 
 /// Returns whether a buffer is Microsoft Excel Open XML Format Spreadsheet (XLSX) data.
+#[must_use]
 pub fn is_xlsx(buf: &[u8]) -> bool {
     msooxml(buf) == Some(DocType::XLSX)
 }
 
 /// Returns whether a buffer is Microsoft PowerPoint 97-2003 Presentation (PPT) data.
+#[must_use]
 pub fn is_ppt(buf: &[u8]) -> bool {
     ole2(buf) == Some(DocType::PPT)
 }
 
-/// Returns whether a buffer is Microsoft PowerPoint Open XML Presentation (PPTX) data.
+/// Returns whether a buffer is Microsoft `PowerPoint` Open XML Presentation (PPTX) data.
+#[must_use]
 pub fn is_pptx(buf: &[u8]) -> bool {
     msooxml(buf) == Some(DocType::PPTX)
 }
@@ -92,7 +98,7 @@ fn msooxml(buf: &[u8]) -> Option<DocType> {
     match idx {
         Some(idx) => start_offset += idx + 4 + 26,
         None => return Some(DocType::OOXML),
-    };
+    }
 
     let typo = check_msooml(buf, start_offset);
     if typo.is_some() {

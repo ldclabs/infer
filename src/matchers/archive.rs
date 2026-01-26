@@ -1,11 +1,13 @@
 use core::convert::{TryFrom, TryInto};
 
 /// Returns whether a buffer is an ePub.
+#[must_use]
 pub fn is_epub(buf: &[u8]) -> bool {
     crate::book::is_epub(buf)
 }
 
 /// Returns whether a buffer is a zip archive.
+#[must_use]
 pub fn is_zip(buf: &[u8]) -> bool {
     buf.len() > 3
         && buf[0] == 0x50
@@ -26,6 +28,7 @@ pub fn is_zip(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a tar archive.
+#[must_use]
 pub fn is_tar(buf: &[u8]) -> bool {
     buf.len() > 261
         && buf[257] == 0x75
@@ -35,6 +38,8 @@ pub fn is_tar(buf: &[u8]) -> bool {
         && buf[261] == 0x72
 }
 
+/// Returns whether a buffer is a PAR2 archive.
+#[must_use]
 pub fn is_par2(buf: &[u8]) -> bool {
     buf.len() > 8
         && buf[0] == 0x50
@@ -48,6 +53,7 @@ pub fn is_par2(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a RAR archive.
+#[must_use]
 pub fn is_rar(buf: &[u8]) -> bool {
     buf.len() > 6
         && buf[0] == 0x52
@@ -60,16 +66,19 @@ pub fn is_rar(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a gzip archive.
+#[must_use]
 pub fn is_gz(buf: &[u8]) -> bool {
     buf.len() > 2 && buf[0] == 0x1F && buf[1] == 0x8B && buf[2] == 0x8
 }
 
 /// Returns whether a buffer is a bzip2 archive.
+#[must_use]
 pub fn is_bz2(buf: &[u8]) -> bool {
     buf.len() > 2 && buf[0] == 0x42 && buf[1] == 0x5A && buf[2] == 0x68
 }
 
 /// Returns whether a buffer is a bzip3 archive.
+#[must_use]
 pub fn is_bz3(buf: &[u8]) -> bool {
     buf.len() > 4
         && buf[0] == b'B'
@@ -80,6 +89,7 @@ pub fn is_bz3(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a 7z archive.
+#[must_use]
 pub fn is_7z(buf: &[u8]) -> bool {
     buf.len() > 5
         && buf[0] == 0x37
@@ -91,16 +101,19 @@ pub fn is_7z(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a PDF.
+#[must_use]
 pub fn is_pdf(buf: &[u8]) -> bool {
     buf.len() > 3 && buf[0] == 0x25 && buf[1] == 0x50 && buf[2] == 0x44 && buf[3] == 0x46
 }
 
 /// Returns whether a buffer is a SWF.
+#[must_use]
 pub fn is_swf(buf: &[u8]) -> bool {
     buf.len() > 2 && (buf[0] == 0x43 || buf[0] == 0x46) && buf[1] == 0x57 && buf[2] == 0x53
 }
 
 /// Returns whether a buffer is an RTF.
+#[must_use]
 pub fn is_rtf(buf: &[u8]) -> bool {
     buf.len() > 4
         && buf[0] == 0x7B
@@ -111,16 +124,19 @@ pub fn is_rtf(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a Nintendo NES ROM.
+#[must_use]
 pub fn is_nes(buf: &[u8]) -> bool {
     buf.len() > 3 && buf[0] == 0x4E && buf[1] == 0x45 && buf[2] == 0x53 && buf[3] == 0x1A
 }
 
 /// Returns whether a buffer is Google Chrome Extension
+#[must_use]
 pub fn is_crx(buf: &[u8]) -> bool {
     buf.len() > 3 && buf[0] == 0x43 && buf[1] == 0x72 && buf[2] == 0x32 && buf[3] == 0x34
 }
 
 /// Returns whether a buffer is a CAB.
+#[must_use]
 pub fn is_cab(buf: &[u8]) -> bool {
     buf.len() > 3
         && ((buf[0] == 0x4D && buf[1] == 0x53 && buf[2] == 0x43 && buf[3] == 0x46)
@@ -128,6 +144,7 @@ pub fn is_cab(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a eot octet stream.
+#[must_use]
 pub fn is_eot(buf: &[u8]) -> bool {
     buf.len() > 35
         && buf[34] == 0x4C
@@ -138,11 +155,13 @@ pub fn is_eot(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is postscript.
+#[must_use]
 pub fn is_ps(buf: &[u8]) -> bool {
     buf.len() > 1 && buf[0] == 0x25 && buf[1] == 0x21
 }
 
 /// Returns whether a buffer is xz archive.
+#[must_use]
 pub fn is_xz(buf: &[u8]) -> bool {
     buf.len() > 5
         && buf[0] == 0xFD
@@ -161,11 +180,13 @@ pub fn is_xz(buf: &[u8]) -> bool {
 /// use std::fs;
 /// assert!(infer::archive::is_sqlite(&fs::read("testdata/sample.db").unwrap()));
 /// ```
+#[must_use]
 pub fn is_sqlite(buf: &[u8]) -> bool {
     buf.len() > 3 && buf[0] == 0x53 && buf[1] == 0x51 && buf[2] == 0x4C && buf[3] == 0x69
 }
 
 /// Returns whether a buffer is a deb archive.
+#[must_use]
 pub fn is_deb(buf: &[u8]) -> bool {
     buf.len() > 20
         && buf[0] == 0x21
@@ -192,6 +213,7 @@ pub fn is_deb(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a ar archive.
+#[must_use]
 pub fn is_ar(buf: &[u8]) -> bool {
     buf.len() > 6
         && buf[0] == 0x21
@@ -204,32 +226,42 @@ pub fn is_ar(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a z archive.
+#[must_use]
 pub fn is_z(buf: &[u8]) -> bool {
     buf.len() > 1 && buf[0] == 0x1F && (buf[1] == 0xA0 || buf[1] == 0x9D)
 }
 
 /// Returns whether a buffer is a lzip archive.
+#[must_use]
 pub fn is_lz(buf: &[u8]) -> bool {
     buf.len() > 3 && buf[0] == 0x4C && buf[1] == 0x5A && buf[2] == 0x49 && buf[3] == 0x50
 }
 
 /// Returns whether a buffer is an RPM.
+#[must_use]
 pub fn is_rpm(buf: &[u8]) -> bool {
     buf.len() > 96 && buf[0] == 0xED && buf[1] == 0xAB && buf[2] == 0xEE && buf[3] == 0xDB
 }
 
 /// Returns whether a buffer is a dcm archive.
+#[must_use]
 pub fn is_dcm(buf: &[u8]) -> bool {
     buf.len() > 131 && buf[128] == 0x44 && buf[129] == 0x49 && buf[130] == 0x43 && buf[131] == 0x4D
 }
 
-const ZSTD_SKIP_START: usize = 0x184D2A50;
-const ZSTD_SKIP_MASK: usize = 0xFFFFFFF0;
+const ZSTD_SKIP_START: usize = 0x184D_2A50;
+const ZSTD_SKIP_MASK: usize = 0xFFFF_FFF0;
 
 /// Returns whether a buffer is a Zstd archive.
 // Zstandard compressed data is made of one or more frames.
 // There are two frame formats defined by Zstandard: Zstandard frames and Skippable frames.
 // See more details from https://tools.ietf.org/id/draft-kucherawy-dispatch-zstd-00.html#rfc.section.2
+/// # Panics
+///
+/// let magic = `u32::from_le_bytes(buf`[0..4].`try_into().unwrap()`);
+/// Cannot panic because buf[0..4] is guaranteed to be 4 bytes long
+/// by the preceding check of `buf.len()` < 8
+#[must_use]
 pub fn is_zst(buf: &[u8]) -> bool {
     if buf.len() > 3 && buf[0] == 0x28 && buf[1] == 0xB5 && buf[2] == 0x2F && buf[3] == 0xFD {
         return true;
@@ -265,7 +297,9 @@ pub fn is_zst(buf: &[u8]) -> bool {
 // LZ4 compressed data is made of one or more frames.
 // There are two frame formats defined by LZ4: LZ4 Frame format and Skippable frames.
 // See more details from https://github.com/lz4/lz4/blob/v1.9.4/doc/lz4_Frame_format.md
+#[must_use]
 pub fn is_lz4(buf: &[u8]) -> bool {
+    // LZ4 frame magic
     if buf.len() > 3 && buf[0] == 0x04 && buf[1] == 0x22 && buf[2] == 0x4D && buf[3] == 0x18 {
         return true;
     }
@@ -297,6 +331,7 @@ pub fn is_lz4(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a MSI Windows Installer archive.
+#[must_use]
 pub fn is_msi(buf: &[u8]) -> bool {
     buf.len() > 7
         && buf[0] == 0xD0
@@ -310,6 +345,7 @@ pub fn is_msi(buf: &[u8]) -> bool {
 }
 
 /// Returns whether a buffer is a CPIO archive.
+#[must_use]
 pub fn is_cpio(buf: &[u8]) -> bool {
     (buf.len() > 1
         && ((buf[0] == 0xC7 && buf[1] == 0x71) // little endian, old format
