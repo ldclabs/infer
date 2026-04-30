@@ -8,11 +8,11 @@ Small crate to infer file and MIME type by checking the
 
 ```rust
 let buf = [0xFF, 0xD8, 0xFF, 0xAA];
-let kind = infer::get(&buf).expect("file type is known");
+let kind = infer2::get(&buf).expect("file type is known");
 
 assert_eq!(kind.mime_type(), "image/jpeg");
 assert_eq!(kind.extension(), "jpg");
-assert_eq!(kind.matcher_type(), infer::MatcherType::Image);
+assert_eq!(kind.matcher_type(), infer2::MatcherType::Image);
 ```
 
 ### Check file type by path
@@ -20,7 +20,7 @@ assert_eq!(kind.matcher_type(), infer::MatcherType::Image);
 ```rust
 # #[cfg(feature = "std")]
 # fn run() {
-let kind = infer::get_from_path("testdata/sample.jpg")
+let kind = infer2::get_from_path("testdata/sample.jpg")
     .expect("file read successfully")
     .expect("file type is known");
 
@@ -33,14 +33,14 @@ assert_eq!(kind.extension(), "jpg");
 
 ```rust
 let buf = [0xFF, 0xD8, 0xFF, 0xAA];
-assert!(infer::image::is_jpeg(&buf));
+assert!(infer2::image::is_jpeg(&buf));
 ```
 
 ### Check for specific type class
 
 ```rust
 let buf = [0xFF, 0xD8, 0xFF, 0xAA];
-assert!(infer::is_image(&buf));
+assert!(infer2::is_image(&buf));
 ```
 
 ### Adds a custom file type matcher
@@ -54,7 +54,7 @@ fn custom_matcher(buf: &[u8]) -> bool {
     return buf.len() >= 3 && buf[0] == 0x10 && buf[1] == 0x11 && buf[2] == 0x12;
 }
 
-let mut info = infer::Infer::new();
+let mut info = infer2::Infer::new();
 info.add("custom/foo", "foo", custom_matcher);
 
 let buf = [0x10, 0x11, 0x12, 0x13];
@@ -66,8 +66,8 @@ assert_eq!(kind.extension(), "foo");
 ```
 */
 
-#![crate_name = "infer"]
-#![doc(html_root_url = "https://docs.rs/infer/latest")]
+#![crate_name = "infer2"]
+#![doc(html_root_url = "https://docs.rs/infer2/latest")]
 #![forbid(unsafe_code)]
 #![allow(clippy::struct_field_names)]
 #![cfg_attr(not(feature = "std"), no_std)]
@@ -136,11 +136,11 @@ impl Type {
     /// # Examples
     ///
     /// ```rust
-    /// let info = infer::Infer::new();
+    /// let info = infer2::Infer::new();
     /// let buf = [0xFF, 0xD8, 0xFF, 0xAA];
     /// let kind = info.get(&buf).expect("file type is known");
     ///
-    /// assert_eq!(kind.matcher_type(), infer::MatcherType::Image);
+    /// assert_eq!(kind.matcher_type(), infer2::MatcherType::Image);
     /// ```
     #[must_use]
     pub const fn matcher_type(&self) -> MatcherType {
@@ -226,7 +226,7 @@ impl Infer {
     /// # Examples
     ///
     /// ```rust
-    /// let info = infer::Infer::new();
+    /// let info = infer2::Infer::new();
     /// let buf = [0xFF, 0xD8, 0xFF, 0xAA];
     /// let kind = info.get(&buf).expect("file type is known");
     ///
@@ -397,7 +397,7 @@ impl Infer {
     ///     return buf.len() >= 3 && buf[0] == 0x10 && buf[1] == 0x11 && buf[2] == 0x12;
     /// }
     ///
-    /// let mut info = infer::Infer::new();
+    /// let mut info = infer2::Infer::new();
     /// info.add("custom/foo", "foo", custom_matcher);
     /// let buf = [0x10, 0x11, 0x12, 0x13];
     /// assert!(info.is_custom(&buf));
@@ -420,7 +420,7 @@ impl Infer {
     ///     return buf.len() >= 3 && buf[0] == 0x10 && buf[1] == 0x11 && buf[2] == 0x12;
     /// }
     ///
-    /// let mut info = infer::Infer::new();
+    /// let mut info = infer2::Infer::new();
     /// info.add("custom/foo", "foo", custom_matcher);
     /// let buf = [0x10, 0x11, 0x12, 0x13];
     /// let kind =  info.get(&buf).expect("file type is known");
@@ -457,7 +457,7 @@ static INFER: Infer = Infer::new();
 /// # Examples
 ///
 /// ```rust
-/// let info = infer::Infer::new();
+/// let info = infer2::Infer::new();
 /// let buf = [0xFF, 0xD8, 0xFF, 0xAA];
 /// let kind = info.get(&buf).expect("file type is known");
 ///
@@ -478,7 +478,7 @@ pub fn get(buf: &[u8]) -> Option<Type> {
 /// # Examples
 ///
 /// ```rust
-/// let kind = infer::get_from_path("testdata/sample.jpg")
+/// let kind = infer2::get_from_path("testdata/sample.jpg")
 ///     .expect("file read successfully")
 ///     .expect("file type is known");
 ///
@@ -518,7 +518,7 @@ pub fn get_from_filename(filename: &str) -> Option<Type> {
 ///
 /// ```rust
 /// let buf = [0xFF, 0xD8, 0xFF, 0xAA];
-/// assert!(infer::is(&buf, "jpg"));
+/// assert!(infer2::is(&buf, "jpg"));
 /// ```
 #[must_use]
 pub fn is(buf: &[u8], extension: &str) -> bool {
@@ -531,7 +531,7 @@ pub fn is(buf: &[u8], extension: &str) -> bool {
 ///
 /// ```rust
 /// let buf = [0xFF, 0xD8, 0xFF, 0xAA];
-/// assert!(infer::is_mime(&buf, "image/jpeg"));
+/// assert!(infer2::is_mime(&buf, "image/jpeg"));
 /// ```
 #[must_use]
 pub fn is_mime(buf: &[u8], mime_type: &str) -> bool {
@@ -543,7 +543,7 @@ pub fn is_mime(buf: &[u8], mime_type: &str) -> bool {
 /// # Examples
 ///
 /// ```rust
-/// assert!(infer::is_supported("jpg"));
+/// assert!(infer2::is_supported("jpg"));
 /// ```
 #[must_use]
 pub fn is_supported(extension: &str) -> bool {
@@ -555,7 +555,7 @@ pub fn is_supported(extension: &str) -> bool {
 /// # Examples
 ///
 /// ```rust
-/// assert!(infer::is_mime_supported("image/jpeg"));
+/// assert!(infer2::is_mime_supported("image/jpeg"));
 /// ```
 #[must_use]
 pub fn is_mime_supported(mime_type: &str) -> bool {
@@ -568,7 +568,7 @@ pub fn is_mime_supported(mime_type: &str) -> bool {
 ///
 /// ```rust
 /// use std::fs;
-/// assert!(infer::is_app(&fs::read("testdata/sample.wasm").unwrap()));
+/// assert!(infer2::is_app(&fs::read("testdata/sample.wasm").unwrap()));
 /// ```
 #[must_use]
 pub fn is_app(buf: &[u8]) -> bool {
@@ -580,7 +580,7 @@ pub fn is_app(buf: &[u8]) -> bool {
 ///
 /// ```rust
 /// use std::fs;
-/// assert!(infer::is_archive(&fs::read("testdata/sample.pdf").unwrap()));
+/// assert!(infer2::is_archive(&fs::read("testdata/sample.pdf").unwrap()));
 /// ```
 #[must_use]
 pub fn is_archive(buf: &[u8]) -> bool {
@@ -594,7 +594,7 @@ pub fn is_archive(buf: &[u8]) -> bool {
 /// ```rust
 /// // mp3
 /// let v = [0xff, 0xfb, 0x90, 0x44, 0x00];
-/// assert!(infer::is_audio(&v));
+/// assert!(infer2::is_audio(&v));
 /// ```
 #[must_use]
 pub fn is_audio(buf: &[u8]) -> bool {
@@ -607,7 +607,7 @@ pub fn is_audio(buf: &[u8]) -> bool {
 ///
 /// ```rust
 /// use std::fs;
-/// assert!(infer::is_book(&fs::read("testdata/sample.epub").unwrap()));
+/// assert!(infer2::is_book(&fs::read("testdata/sample.epub").unwrap()));
 /// ```
 #[must_use]
 pub fn is_book(buf: &[u8]) -> bool {
@@ -620,7 +620,7 @@ pub fn is_book(buf: &[u8]) -> bool {
 ///
 /// ```rust
 /// use std::fs;
-/// assert!(infer::is_document(&fs::read("testdata/sample.docx").unwrap()));
+/// assert!(infer2::is_document(&fs::read("testdata/sample.docx").unwrap()));
 /// ```
 #[must_use]
 pub fn is_document(buf: &[u8]) -> bool {
@@ -633,7 +633,7 @@ pub fn is_document(buf: &[u8]) -> bool {
 ///
 /// ```rust
 /// use std::fs;
-/// assert!(infer::is_font(&fs::read("testdata/sample.ttf").unwrap()));
+/// assert!(infer2::is_font(&fs::read("testdata/sample.ttf").unwrap()));
 /// ```
 #[must_use]
 pub fn is_font(buf: &[u8]) -> bool {
@@ -646,7 +646,7 @@ pub fn is_font(buf: &[u8]) -> bool {
 ///
 /// ```rust
 /// let v = [0xFF, 0xD8, 0xFF, 0xAA];
-/// assert!(infer::is_image(&v));
+/// assert!(infer2::is_image(&v));
 /// ```
 #[must_use]
 pub fn is_image(buf: &[u8]) -> bool {
@@ -659,7 +659,7 @@ pub fn is_image(buf: &[u8]) -> bool {
 ///
 /// ```rust
 /// use std::fs;
-/// assert!(infer::is_video(&fs::read("testdata/sample.mov").unwrap()));
+/// assert!(infer2::is_video(&fs::read("testdata/sample.mov").unwrap()));
 /// ```
 #[must_use]
 pub fn is_video(buf: &[u8]) -> bool {

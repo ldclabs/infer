@@ -8,7 +8,7 @@ fn main() {
         exit(1);
     };
 
-    match infer::get_from_path(path) {
+    match infer2::get_from_path(path) {
         Ok(Some(info)) => {
             println!("Through the arcane magic of this crate we determined the file type to be");
             println!("mime type: {}", info.mime_type());

@@ -1,13 +1,15 @@
-# infer
+# infer2
 
-![Build Status](https://github.com/bojand/infer/workflows/build/badge.svg)
-[![crates version](https://img.shields.io/crates/v/infer.svg)](https://crates.io/crates/infer)
-[![documentation](https://docs.rs/infer/badge.svg)](https://docs.rs/infer)
+[![Build Status](https://github.com/ldclabs/infer/actions/workflows/build.yml/badge.svg)](https://github.com/ldclabs/infer/actions/workflows/build.yml)
 
 Small crate to infer file and MIME type by checking the
 [magic number](https://en.wikipedia.org/wiki/Magic_number_(programming)) signature.
 
 Adaptation of [filetype](https://github.com/h2non/filetype) Go package ported to Rust.
+
+`infer2` is a maintained fork of the original `infer` crate. New releases use the
+crate name `infer2`, while keeping the public API compatible for common use cases,
+so migrating is usually limited to renaming the dependency and imports.
 
 Does not require magic file database (i.e. `/etc/magic`).
 
@@ -21,12 +23,11 @@ Does not require magic file database (i.e. `/etc/magic`).
 
 ## Installation
 
-This crate works with Cargo and is on [crates.io](https://crates.io/crates/infer).
-Add it to your `Cargo.toml` like so:
+When using the republished crate, add `infer2` to your `Cargo.toml` like so:
 
 ```toml
 [dependencies]
-infer = "0.3"
+infer2 = "0.21" # or the latest published version
 ```
 
 If you are not using the custom matcher or the file type from file path functionality you
@@ -34,7 +35,7 @@ can make this crate even lighter by importing it with no default features, like 
 
 ```toml
 [dependencies]
-infer = { version = "0.3", default-features = false }
+infer2 = { version = "0.21", default-features = false } # or the latest published version
 ```
 
 ## no_std and no_alloc support
@@ -56,7 +57,7 @@ struct, which must be used when dealing custom matchers.
 
 ```rust
 let buf = [0xFF, 0xD8, 0xFF, 0xAA];
-let kind = infer::get(&buf).expect("file type is known");
+let kind = infer2::get(&buf).expect("file type is known");
 
 assert_eq!(kind.mime_type(), "image/jpeg");
 assert_eq!(kind.extension(), "jpg");
@@ -65,7 +66,7 @@ assert_eq!(kind.extension(), "jpg");
 ### Check file type by path
 
 ```rust
-let kind = infer::get_from_path("testdata/sample.jpg")
+let kind = infer2::get_from_path("testdata/sample.jpg")
     .expect("file read successfully")
     .expect("file type is known");
 
@@ -77,14 +78,14 @@ assert_eq!(kind.extension(), "jpg");
 
 ```rust
 let buf = [0xFF, 0xD8, 0xFF, 0xAA];
-assert!(infer::image::is_jpeg(&buf));
+assert!(infer2::image::is_jpeg(&buf));
 ```
 
 ### Check for specific type class
 
 ```rust
 let buf = [0xFF, 0xD8, 0xFF, 0xAA];
-assert!(infer::is_image(&buf));
+assert!(infer2::is_image(&buf));
 ```
 
 ### Adds a custom file type matcher
@@ -94,7 +95,7 @@ fn custom_matcher(buf: &[u8]) -> bool {
     return buf.len() >= 3 && buf[0] == 0x10 && buf[1] == 0x11 && buf[2] == 0x12;
 }
 
-let mut info = infer::Infer::new();
+let mut info = infer2::Infer::new();
 info.add("custom/foo", "foo", custom_matcher);
 
 let buf = [0x10, 0x11, 0x12, 0x13];

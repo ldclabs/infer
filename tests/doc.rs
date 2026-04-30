@@ -4,7 +4,7 @@ mod common;
 macro_rules! test_format_get_only {
     ($exp_matchert:ident, $exp_mimet:expr, $exp_ext:expr, $format:ident, $file:expr) => {
         mod $format {
-            use infer::{MatcherType, Type};
+            use infer2::{MatcherType, Type};
 
             fn matcher(_buf: &[u8]) -> bool {
                 false
@@ -15,7 +15,7 @@ macro_rules! test_format_get_only {
                 let expected_kind =
                     Type::new(MatcherType::$exp_matchert, $exp_mimet, $exp_ext, matcher);
                 let buf = include_bytes!(concat!("../testdata/", $file));
-                let kind = infer::get(buf).expect("test file matches");
+                let kind = infer2::get(buf).expect("test file matches");
 
                 assert_eq!(expected_kind, kind);
             }

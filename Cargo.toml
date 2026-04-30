@@ -1,5 +1,5 @@
 [package]
-name = "infer"
+name = "infer2"
 version = "0.21.0"
 authors = ["Bojan <dbojan@gmail.com>"]
 edition = "2021"

@@ -4,7 +4,7 @@
 ///
 /// ```rust
 /// use std::fs;
-/// assert!(infer::app::is_wasm(&fs::read("testdata/sample.wasm").unwrap()));
+/// assert!(infer2::app::is_wasm(&fs::read("testdata/sample.wasm").unwrap()));
 /// ```
 #[must_use]
 pub fn is_wasm(buf: &[u8]) -> bool {
@@ -27,7 +27,7 @@ pub fn is_wasm(buf: &[u8]) -> bool {
 ///
 /// ```rust
 /// use std::fs;
-/// assert!(infer::app::is_exe(&fs::read("testdata/sample.exe").unwrap()));
+/// assert!(infer2::app::is_exe(&fs::read("testdata/sample.exe").unwrap()));
 /// ```
 #[must_use]
 pub fn is_exe(buf: &[u8]) -> bool {

@@ -190,7 +190,7 @@ pub fn is_xz(buf: &[u8]) -> bool {
 ///
 /// ```rust
 /// use std::fs;
-/// assert!(infer::archive::is_sqlite(&fs::read("testdata/sample.db").unwrap()));
+/// assert!(infer2::archive::is_sqlite(&fs::read("testdata/sample.db").unwrap()));
 /// ```
 #[must_use]
 pub fn is_sqlite(buf: &[u8]) -> bool {
