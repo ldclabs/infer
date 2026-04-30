@@ -499,6 +499,19 @@ pub fn get_from_mime(mime_type: &str) -> Option<Type> {
         .copied()
 }
 
+/// Return the file type of given file name
+#[must_use]
+pub fn get_from_filename(filename: &str) -> Option<Type> {
+    let extension = Path::new(filename)
+        .extension()
+        .and_then(|ext| ext.to_str())
+        .unwrap_or("");
+    INFER
+        .iter_matchers()
+        .find(|kind| kind.extension() == extension)
+        .copied()
+}
+
 /// Determines whether a buffer is of given extension.
 ///
 /// # Examples
