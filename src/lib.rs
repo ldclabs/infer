@@ -502,9 +502,11 @@ pub fn get_from_mime(mime_type: &str) -> Option<Type> {
 /// Return the file type of given file name
 #[must_use]
 pub fn get_from_filename(filename: &str) -> Option<Type> {
-    let extension = Path::new(filename)
-        .extension()
-        .and_then(|ext| ext.to_str())
+    let extension = filename
+        .rsplit(['/', '\\'])
+        .next()
+        .and_then(|name| name.rsplit_once('.').map(|(_, extension)| extension))
+        .filter(|extension| !extension.is_empty())
         .unwrap_or("");
     INFER
         .iter_matchers()
@@ -690,6 +692,19 @@ mod tests {
         let buf = [0xFF, 0xD8, 0xFF, 0xAA];
         let kind = crate::get(&buf).expect("file type is known");
         assert_eq!(kind.matcher_type(), crate::MatcherType::Image);
+    }
+
+    #[test]
+    fn test_get_from_filename() {
+        let kind = crate::get_from_filename("images/sample.jpg").expect("file type is known");
+        assert_eq!(kind.extension(), "jpg");
+        assert_eq!(kind.mime_type(), "image/jpeg");
+
+        let kind = crate::get_from_filename(r"C:\images\sample.png").expect("file type is known");
+        assert_eq!(kind.extension(), "png");
+        assert_eq!(kind.mime_type(), "image/png");
+
+        assert!(crate::get_from_filename("README").is_none());
     }
 
     #[cfg(feature = "alloc")]

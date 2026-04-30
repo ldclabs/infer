@@ -1,3 +1,5 @@
+use core::fmt;
+
 use super::{matchers, Matcher, Type};
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
@@ -14,8 +16,8 @@ pub enum MatcherType {
     Custom,
 }
 
-impl std::fmt::Display for MatcherType {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+impl fmt::Display for MatcherType {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             MatcherType::App => write!(f, "Application"),
             MatcherType::Archive => write!(f, "Archive"),
