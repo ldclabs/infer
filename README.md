@@ -1,6 +1,8 @@
 # infer2
 
-[![Build Status](https://github.com/ldclabs/infer/actions/workflows/build.yml/badge.svg)](https://github.com/ldclabs/infer/actions/workflows/build.yml)
+[![Build Status](https://github.com/ldclabs/infer2/actions/workflows/build.yml/badge.svg)](https://github.com/ldclabs/infer2/actions/workflows/build.yml)
+[![crates version](https://img.shields.io/crates/v/infer2.svg)](https://crates.io/crates/infer2)
+[![documentation](https://docs.rs/infer2/badge.svg)](https://docs.rs/infer2)
 
 Small crate to infer file and MIME type by checking the
 [magic number](https://en.wikipedia.org/wiki/Magic_number_(programming)) signature.

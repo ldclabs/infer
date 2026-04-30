@@ -1,15 +1,15 @@
 [package]
 name = "infer2"
-version = "0.21.0"
+version = "0.21.1"
 authors = ["Bojan <dbojan@gmail.com>"]
 edition = "2021"
 description = "Small crate to infer file type based on magic number signatures"
 license = "MIT"
 keywords = ["magic-number", "filetype", "mime", "mime-types", "no_std"]
 readme = "README.md"
-homepage = "https://github.com/bojand/infer"
-repository = "https://github.com/bojand/infer"
-documentation = "https://docs.rs/infer"
+homepage = "https://github.com/ldclabs/infer2"
+repository = "https://github.com/ldclabs/infer2"
+documentation = "https://docs.rs/infer2"
 exclude = ["/testdata", "/tests"]
 
 [features]
@@ -23,4 +23,4 @@ path = "examples/file.rs"
 required-features = ["std"]
 
 [dependencies]
-cfb = { version = "0.12", optional = true }
+cfb = { version = "0.14", optional = true }

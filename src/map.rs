@@ -14,6 +14,23 @@ pub enum MatcherType {
     Custom,
 }
 
+impl std::fmt::Display for MatcherType {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            MatcherType::App => write!(f, "Application"),
+            MatcherType::Archive => write!(f, "Archive"),
+            MatcherType::Audio => write!(f, "Audio"),
+            MatcherType::Book => write!(f, "Book"),
+            MatcherType::Doc => write!(f, "Document"),
+            MatcherType::Font => write!(f, "Font"),
+            MatcherType::Image => write!(f, "Image"),
+            MatcherType::Text => write!(f, "Text"),
+            MatcherType::Video => write!(f, "Video"),
+            MatcherType::Custom => write!(f, "Custom"),
+        }
+    }
+}
+
 // This is needed until function pointers can be used in `const fn`.
 // See trick and discussion at https://github.com/rust-lang/rust/issues/63997#issuecomment-616666309
 #[repr(transparent)]
