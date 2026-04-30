@@ -3,7 +3,7 @@ name: build
 on:
   push:
     branches:
-      - master
+      - main
     paths:
       - "Cargo*"
       - "src/**"
@@ -11,7 +11,7 @@ on:
       - "testdata/**"
   pull_request:
     branches:
-      - master
+      - main
     paths:
       - "Cargo*"
       - "src/**"
